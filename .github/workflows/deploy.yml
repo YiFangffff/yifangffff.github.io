@@ -1,0 +1,41 @@
+# 自动构建并发布 Hugo 站点到 GitHub Pages
+# 触发方式：push 到 main（或在 Actions 页面手动 Run workflow）
+# 效果：云端运行 hugo 构建，把 public/ 内容强制推送到 master 分支
+#       （GitHub Pages 服务的就是 master，推上去后 Pages 自动重建上线）
+
+name: Deploy Hugo site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source (main)
+        uses: actions/checkout@v4
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.165.0"
+
+      - name: Build site
+        run: hugo --gc --cleanDestinationDir
+
+      - name: Deploy to master branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd public
+          git init -q
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Deploy site: $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" master:master
