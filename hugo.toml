@@ -1,0 +1,4 @@
+baseURL = 'https://yifangffff.github.io'
+locale = 'en-us'
+title = 'My New Hugo Project'
+theme = 'PaperMod'
