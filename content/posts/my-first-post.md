@@ -5,6 +5,6 @@ title = 'My First Post'
 
 +++
 
-我是第一个博客！
+我是yifangffff的第一个博客！
 
 This is my first post on my new blog
