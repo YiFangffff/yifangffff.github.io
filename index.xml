@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>yifangffff&#39;s Blog</title>
+    <link>https://yifangffff.github.io/</link>
+    <description>Recent content on yifangffff&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 20 Aug 2026 16:10:00 +0800</lastBuildDate>
+    <atom:link href="https://yifangffff.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LLM Wiki 本地搭建与使用调研</title>
+      <link>https://yifangffff.github.io/posts/llm-wiki/</link>
+      <pubDate>Thu, 20 Aug 2026 16:10:00 +0800</pubDate>
+      <guid>https://yifangffff.github.io/posts/llm-wiki/</guid>
+      <description>&lt;h1 id=&#34;llm-wiki本地搭建使用调研&#34;&gt;LLM wiki本地搭建+使用调研&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文是对 LLM Wiki 的完整调研记录，涵盖产品介绍、两种本地部署方案与核心能力验证，适合希望自建个人或团队知识库的开发者参考。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java 匿名内部类、Lambda 与 Stream 学习笔记</title>
+      <link>https://yifangffff.github.io/posts/java-lambda-stream/</link>
+      <pubDate>Thu, 20 Aug 2026 11:10:00 +0800</pubDate>
+      <guid>https://yifangffff.github.io/posts/java-lambda-stream/</guid>
+      <description>&lt;h1 id=&#34;java-匿名内部类lambda-与-stream-学习笔记&#34;&gt;Java 匿名内部类、Lambda 与 Stream 学习笔记&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这篇笔记整理了 Java 中匿名内部类、Lambda 表达式、函数式接口与 Stream 流的核心概念和常用写法，包含语法示例与综合案例，适合 Java 初学者以及需要快速回顾的开发者。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Git 常用命令速查</title>
+      <link>https://yifangffff.github.io/posts/git/</link>
+      <pubDate>Thu, 20 Aug 2026 10:00:00 +0800</pubDate>
+      <guid>https://yifangffff.github.io/posts/git/</guid>
+      <description>&lt;h1 id=&#34;git-常用命令速查&#34;&gt;Git 常用命令速查&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理了日常开发中最常用的 Git 命令，按操作场景分类，方便快速查阅与直接复制使用。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;-分支操作&#34;&gt;🔀 分支操作&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;查看当前分支&lt;/strong&gt;：&lt;code&gt;git branch&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;查看文件修改状态&lt;/strong&gt;：&lt;code&gt;git status&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;创建新分支并切换&lt;/strong&gt;：&lt;code&gt;git checkout -b dev_cyz&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;切换分支&lt;/strong&gt;：&lt;code&gt;git checkout cyz&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;查看所有远程分支&lt;/strong&gt;：&lt;code&gt;git branch -a&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-同步与远程&#34;&gt;📡 同步与远程&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;拉取远程最新代码&lt;/strong&gt;：&lt;code&gt;git fetch&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;拉取并合并&lt;/strong&gt;：&lt;code&gt;git pull&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;查看远程代码仓库&lt;/strong&gt;：&lt;code&gt;git remote -v&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-提交与推送&#34;&gt;📦 提交与推送&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;添加全部代码&lt;/strong&gt;：&lt;code&gt;git add .&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;添加指定代码&lt;/strong&gt;：&lt;code&gt;git add src/test/java/UserServiceTest.java&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;提交&lt;/strong&gt;：&lt;code&gt;git commit -m &amp;quot;add unit test&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;推送代码&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;第一次：&lt;code&gt;git push -u origin dev_cyz&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;以后：&lt;code&gt;git push&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-历史记录&#34;&gt;🕘 历史记录&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;查看提交记录&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;简单&lt;/strong&gt;：&lt;code&gt;git log --oneline&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;详细&lt;/strong&gt;：&lt;code&gt;git log&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-撤销操作&#34;&gt;↩️ 撤销操作&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;撤销未提交修改&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;文件：&lt;code&gt;git checkout -- 文件名&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;全部：&lt;code&gt;git checkout .&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;撤销已提交&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;不删除：&lt;code&gt;git reset --soft HEAD^&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;删除：&lt;code&gt;git reset --hard HEAD^&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠️ 注意：&lt;code&gt;git reset --hard&lt;/code&gt; 会丢弃未提交的修改，执行前请确认。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Java 匿名内部类、Lambda 与 Stream 学习笔记 | yifangffff&#39;s Blog</title>
+<meta name="keywords" content="Java">
+<meta name="description" content="Java 匿名内部类、Lambda 与 Stream 学习笔记
+
+这篇笔记整理了 Java 中匿名内部类、Lambda 表达式、函数式接口与 Stream 流的核心概念和常用写法，包含语法示例与综合案例，适合 Java 初学者以及需要快速回顾的开发者。">
+<meta name="author" content="yifangffff">
+<link rel="canonical" href="https://yifangffff.github.io/posts/java-lambda-stream/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://yifangffff.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://yifangffff.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://yifangffff.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://yifangffff.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://yifangffff.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://yifangffff.github.io/posts/java-lambda-stream/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://yifangffff.github.io/posts/java-lambda-stream/">
+  <meta property="og:site_name" content="yifangffff&#39;s Blog">
+  <meta property="og:title" content="Java 匿名内部类、Lambda 与 Stream 学习笔记">
+  <meta property="og:description" content="Java 匿名内部类、Lambda 与 Stream 学习笔记 这篇笔记整理了 Java 中匿名内部类、Lambda 表达式、函数式接口与 Stream 流的核心概念和常用写法，包含语法示例与综合案例，适合 Java 初学者以及需要快速回顾的开发者。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-08-20T11:10:00+08:00">
+    <meta property="article:modified_time" content="2026-08-20T11:10:00+08:00">
+    <meta property="article:tag" content="Java">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Java 匿名内部类、Lambda 与 Stream 学习笔记">
+  <meta name="twitter:description" content="Java 匿名内部类、Lambda 与 Stream 学习笔记 这篇笔记整理了 Java 中匿名内部类、Lambda 表达式、函数式接口与 Stream 流的核心概念和常用写法，包含语法示例与综合案例，适合 Java 初学者以及需要快速回顾的开发者。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://yifangffff.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Java 匿名内部类、Lambda 与 Stream 学习笔记",
+      "item": "https://yifangffff.github.io/posts/java-lambda-stream/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Java 匿名内部类、Lambda 与 Stream 学习笔记",
+  "name": "Java 匿名内部类、Lambda 与 Stream 学习笔记",
+  "description": "Java 匿名内部类、Lambda 与 Stream 学习笔记 这篇笔记整理了 Java 中匿名内部类、Lambda 表达式、函数式接口与 Stream 流的核心概念和常用写法，包含语法示例与综合案例，适合 Java 初学者以及需要快速回顾的开发者。\n",
+  "keywords": [
+    "Java"
+  ],
+  "articleBody": "Java 匿名内部类、Lambda 与 Stream 学习笔记 这篇笔记整理了 Java 中匿名内部类、Lambda 表达式、函数式接口与 Stream 流的核心概念和常用写法，包含语法示例与综合案例，适合 Java 初学者以及需要快速回顾的开发者。\n📌 示例 Lambda 必须依附于一个函数式接口。\nRunnable runnable = new Runnable() { @Override public void run() { System.out.println(\"Hello\"); } }; Runnable runnable = () -\u003e { System.out.println(\"Hello\"); }; Runnable runnable = () -\u003e System.out.println(\"Hello\"); Lambda 语法结构：\n(参数) -\u003e { 要执行的代码 } 参数 执行逻辑 ↓ ↓ (a, b) -\u003e a + b (a, b) -\u003e { return a + b; } (a, b) -\u003e a + b 🔬 函数式接口 = 只有一个抽象方法的接口\n📦 Java自带的函数式接口： Consumer 有参数，没有返回值（消费数据） Function 有参数，有返回值（输入 → 输出） Predicate 有参数，返回boolean（判断） Supplier 没有参数，有返回值（提供数据） 🌊 Stream： 要求：找出长度大于2的名字\n//传统写法 List\u003cString\u003e result = new ArrayList\u003c\u003e(); for (String name : names) { if (name.length() \u003e 2) { result.add(name); } } //stream+lambda List\u003cString\u003e result = names.stream() .filter(name -\u003e name.length() \u003e 2) .toList(); 🔁 forEach names.forEach(name -\u003e { System.out.println(name); }); names.forEach(name -\u003e System.out.println(name)); names.forEach(System.out::println);//方法引用 🔗 Lambda和匿名内部类的关系 //匿名内部类 Runnable runnable = new Runnable() { @Override public void run() { System.out.println(\"Hello\"); } }; //lambda Runnable runnable = ()-\u003eSystem.out.println(\"Hello\"); lambda是匿名内部类的一种更加简洁的写法，但严格来说它不是所有匿名内部类的通用替代品，而是针对函数式接口。\n💡 lambda思想 for (User user : users) { if (user.getAge() \u003e= 18) { System.out.println(user.getName()); } } users.stream() .filter(user -\u003e user.getAge() \u003e= 18) .map(user -\u003e user.getName()) .forEach(name -\u003e System.out.println(name)); ✍️ lambda语法 //无参数 () -\u003e System.out.println(\"Hello\") //一个参数 name -\u003e System.out.println(name) (name) -\u003e System.out.println(name) //多个参数 (a, b) -\u003e a + b //多行 (name) -\u003e { String result = name.toUpperCase(); return result; } (name) -\u003e { return name.toUpperCase(); } //单行返回值 name -\u003e name.length() name -\u003e { return name.length(); } 🏗️ stream流水线 filter 过滤 map 转换，一个盒子换一个盒子 flatMap 拆平，把所有盒子打开放一起 sorted 排序 distinct 去重 collect 收集结果，把Stream结果转换成各种集合。 reduce聚合（求和，最大最小值，平均值，拼接） partitioningBy分区 joining（字符串连接） //map flatMap\nList\u003cList\u003cString\u003e\u003e classes = Arrays.asList( Arrays.asList(\"张三\",\"李四\"), Arrays.asList(\"王五\",\"赵六\") ); //想得到”张三“”李四“”王五“”赵六“ classes.stream() .map(list -\u003e list) .toList();//[ [张三,李四], [王五,赵六] ] classes.stream() .flatMap(list -\u003e list.stream()) .toList();//[张三,李四,王五,赵六] //sorted\n//升序 nums.stream() .sorted() .toList(); //对象排序 按照年龄 users.stream() .sorted( (u1,u2)-\u003eu1.getAge()-u2.getAge() ) .toList(); users.stream() .sorted( Comparator.comparing(User::getAge) ) .toList(); //collect\n//转list toList() 相当于collect(Collectors.toList()) List\u003cString\u003e list = users.stream() .map(User::getName) .collect(Collectors.toList()); //转set(去重) Set\u003cString\u003e set = users.stream() .map(User::getName) .collect(Collectors.toSet()); //分组 Map\u003cInteger,List\u003cUser\u003e\u003e map = users.stream() .collect( Collectors.groupingBy( User::getAge )); //查询成年用户，获取姓名，去重，按照名字排序 List\u003cString\u003e result = users.stream() //过滤成年人 .filter(user -\u003e user.getAge() \u003e=18) //获取名字 .map(User::getName) //去重 .distinct() //排序 .sorted() //收集 .collect(Collectors.toList()); 📌 总结 Lambda 是匿名内部类针对函数式接口的简化写法，配合四个内置函数式接口（Consumer、Function、Predicate、Supplier）和 Stream 流水线（filter、map、flatMap、sorted、distinct、collect 等），可以大幅简化集合操作代码。核心思路是把数据流看作一条流水线，每一步操作都是一道工序，最终用 collect 收集结果。\n类别 要点 Lambda 语法 () -\u003e ...、x -\u003e ...、(a, b) -\u003e a + b；多行用 {} + return 函数式接口 只有一个抽象方法的接口；自带 Consumer、Function、Predicate、Supplier Stream 常用操作 filter 过滤、map/flatMap 转换、sorted 排序、distinct 去重、collect 收集 简化写法 方法引用 System.out::println、Comparator.comparing(User::getAge) ",
+  "wordCount" : "1426",
+  "inLanguage": "en",
+  "datePublished": "2026-08-20T11:10:00+08:00",
+  "dateModified": "2026-08-20T11:10:00+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "yifangffff"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://yifangffff.github.io/posts/java-lambda-stream/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "yifangffff's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://yifangffff.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://yifangffff.github.io/" accesskey="h" title="yifangffff&#39;s Blog (Alt + H)">yifangffff&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://yifangffff.github.io/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://yifangffff.github.io/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://yifangffff.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://yifangffff.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://yifangffff.github.io/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">Posts</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      Java 匿名内部类、Lambda 与 Stream 学习笔记
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-08-20 11:10:00 +0800 +0800'>August 20, 2026</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>1426 words</span>&nbsp;·&nbsp;<span>yifangffff</span>
+
+</div>
+  </header> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#java-%e5%8c%bf%e5%90%8d%e5%86%85%e9%83%a8%e7%b1%bblambda-%e4%b8%8e-stream-%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0" aria-label="Java 匿名内部类、Lambda 与 Stream 学习笔记">Java 匿名内部类、Lambda 与 Stream 学习笔记</a><ul>
+                    
+            <li>
+                <a href="#-%e7%a4%ba%e4%be%8b" aria-label="📌 示例">📌 示例</a></li>
+            <li>
+                <a href="#-%e5%87%bd%e6%95%b0%e5%bc%8f%e6%8e%a5%e5%8f%a3" aria-label="🔬 函数式接口">🔬 函数式接口</a></li>
+            <li>
+                <a href="#-java%e8%87%aa%e5%b8%a6%e7%9a%84%e5%87%bd%e6%95%b0%e5%bc%8f%e6%8e%a5%e5%8f%a3" aria-label="📦 Java自带的函数式接口：">📦 Java自带的函数式接口：</a></li>
+            <li>
+                <a href="#-stream" aria-label="🌊 Stream：">🌊 Stream：</a></li>
+            <li>
+                <a href="#-foreach" aria-label="🔁 forEach">🔁 forEach</a></li>
+            <li>
+                <a href="#-lambda%e5%92%8c%e5%8c%bf%e5%90%8d%e5%86%85%e9%83%a8%e7%b1%bb%e7%9a%84%e5%85%b3%e7%b3%bb" aria-label="🔗 Lambda和匿名内部类的关系">🔗 Lambda和匿名内部类的关系</a></li>
+            <li>
+                <a href="#-lambda%e6%80%9d%e6%83%b3" aria-label="💡 lambda思想">💡 lambda思想</a></li>
+            <li>
+                <a href="#-lambda%e8%af%ad%e6%b3%95" aria-label="✍️ lambda语法">✍️ lambda语法</a></li>
+            <li>
+                <a href="#-stream%e6%b5%81%e6%b0%b4%e7%ba%bf" aria-label="🏗️ stream流水线">🏗️ stream流水线</a></li>
+            <li>
+                <a href="#-%e6%80%bb%e7%bb%93" aria-label="📌 总结">📌 总结</a>
+            </li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h1 id="java-匿名内部类lambda-与-stream-学习笔记">Java 匿名内部类、Lambda 与 Stream 学习笔记<a hidden class="anchor" aria-hidden="true" href="#java-匿名内部类lambda-与-stream-学习笔记">#</a></h1>
+<blockquote>
+<p>这篇笔记整理了 Java 中匿名内部类、Lambda 表达式、函数式接口与 Stream 流的核心概念和常用写法，包含语法示例与综合案例，适合 Java 初学者以及需要快速回顾的开发者。</p>
+</blockquote>
+<h2 id="-示例">📌 示例<a hidden class="anchor" aria-hidden="true" href="#-示例">#</a></h2>
+<p><strong>Lambda 必须依附于一个函数式接口。</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Runnable runnable <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Runnable() {
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span>() {
+</span></span><span style="display:flex;"><span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Hello&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p><img alt="示例示意图" loading="lazy" src="/posts/java-lambda-stream/images/image1.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Runnable runnable <span style="color:#f92672">=</span> () <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Hello&#34;</span>);
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Runnable runnable <span style="color:#f92672">=</span> () <span style="color:#f92672">-&gt;</span> System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Hello&#34;</span>);
+</span></span></code></pre></div><p>Lambda 语法结构：</p>
+<pre tabindex="0"><code>(参数) -&gt; { 要执行的代码 }
+参数        执行逻辑
+↓             ↓
+(a, b)  -&gt;   a + b
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>(a, b) <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>(a, b) <span style="color:#f92672">-&gt;</span> a <span style="color:#f92672">+</span> b
+</span></span></code></pre></div><h2 id="-函数式接口">🔬 函数式接口<a hidden class="anchor" aria-hidden="true" href="#-函数式接口">#</a></h2>
+<p><strong>= 只有一个抽象方法的接口</strong></p>
+<p><img alt="函数式接口示意图" loading="lazy" src="/posts/java-lambda-stream/images/image2.png"></p>
+<p><img alt="示意图" loading="lazy" src="/posts/java-lambda-stream/images/image3.png"></p>
+<h2 id="-java自带的函数式接口">📦 Java自带的函数式接口：<a hidden class="anchor" aria-hidden="true" href="#-java自带的函数式接口">#</a></h2>
+<ul>
+<li>Consumer 有参数，没有返回值（消费数据）</li>
+<li>Function 有参数，有返回值（输入 → 输出）</li>
+<li>Predicate 有参数，返回boolean（判断）</li>
+<li>Supplier 没有参数，有返回值（提供数据）</li>
+</ul>
+<h2 id="-stream">🌊 Stream：<a hidden class="anchor" aria-hidden="true" href="#-stream">#</a></h2>
+<p><img alt="Stream 示意图" loading="lazy" src="/posts/java-lambda-stream/images/image4.png"></p>
+<p>要求：找出长度大于2的名字</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//传统写法</span>
+</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> result <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (String name : names) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (name.<span style="color:#a6e22e">length</span>() <span style="color:#f92672">&gt;</span> 2) {
+</span></span><span style="display:flex;"><span>        result.<span style="color:#a6e22e">add</span>(name);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//stream+lambda</span>
+</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> result <span style="color:#f92672">=</span> names.<span style="color:#a6e22e">stream</span>()
+</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">filter</span>(name <span style="color:#f92672">-&gt;</span> name.<span style="color:#a6e22e">length</span>() <span style="color:#f92672">&gt;</span> 2)
+</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">toList</span>();
+</span></span></code></pre></div><h2 id="-foreach">🔁 forEach<a hidden class="anchor" aria-hidden="true" href="#-foreach">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>names.<span style="color:#a6e22e">forEach</span>(name <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(name);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>names.<span style="color:#a6e22e">forEach</span>(name <span style="color:#f92672">-&gt;</span> System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(name));
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>names.<span style="color:#a6e22e">forEach</span>(System.<span style="color:#a6e22e">out</span>::println);<span style="color:#75715e">//方法引用</span>
+</span></span></code></pre></div><h2 id="-lambda和匿名内部类的关系">🔗 Lambda和匿名内部类的关系<a hidden class="anchor" aria-hidden="true" href="#-lambda和匿名内部类的关系">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//匿名内部类</span>
+</span></span><span style="display:flex;"><span>Runnable runnable <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Runnable() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span>() {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//lambda</span>
+</span></span><span style="display:flex;"><span>Runnable runnable <span style="color:#f92672">=</span> ()<span style="color:#f92672">-&gt;</span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Hello&#34;</span>);
+</span></span></code></pre></div><p>lambda是匿名内部类的一种更加简洁的写法，但严格来说它不是所有匿名内部类的通用替代品，而是针对函数式接口。</p>
+<h2 id="-lambda思想">💡 lambda思想<a hidden class="anchor" aria-hidden="true" href="#-lambda思想">#</a></h2>
+<p><img alt="lambda 思想示意图" loading="lazy" src="/posts/java-lambda-stream/images/image5.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (User user : users) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (user.<span style="color:#a6e22e">getAge</span>() <span style="color:#f92672">&gt;=</span> 18) {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(user.<span style="color:#a6e22e">getName</span>());
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>users.<span style="color:#a6e22e">stream</span>()
+</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">filter</span>(user <span style="color:#f92672">-&gt;</span> user.<span style="color:#a6e22e">getAge</span>() <span style="color:#f92672">&gt;=</span> 18)
+</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">map</span>(user <span style="color:#f92672">-&gt;</span> user.<span style="color:#a6e22e">getName</span>())
+</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">forEach</span>(name <span style="color:#f92672">-&gt;</span> System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(name));
+</span></span></code></pre></div><h2 id="-lambda语法">✍️ lambda语法<a hidden class="anchor" aria-hidden="true" href="#-lambda语法">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//无参数</span>
+</span></span><span style="display:flex;"><span>() <span style="color:#f92672">-&gt;</span> System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Hello&#34;</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//一个参数</span>
+</span></span><span style="display:flex;"><span>name <span style="color:#f92672">-&gt;</span> System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(name)
+</span></span><span style="display:flex;"><span>(name) <span style="color:#f92672">-&gt;</span> System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(name)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//多个参数</span>
+</span></span><span style="display:flex;"><span>(a, b) <span style="color:#f92672">-&gt;</span> a <span style="color:#f92672">+</span> b
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//多行</span>
+</span></span><span style="display:flex;"><span>(name) <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>    String result <span style="color:#f92672">=</span> name.<span style="color:#a6e22e">toUpperCase</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>(name) <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> name.<span style="color:#a6e22e">toUpperCase</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//单行返回值</span>
+</span></span><span style="display:flex;"><span>name <span style="color:#f92672">-&gt;</span> name.<span style="color:#a6e22e">length</span>()
+</span></span><span style="display:flex;"><span>name <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> name.<span style="color:#a6e22e">length</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="-stream流水线">🏗️ stream流水线<a hidden class="anchor" aria-hidden="true" href="#-stream流水线">#</a></h2>
+<ul>
+<li>filter 过滤</li>
+<li>map 转换，一个盒子换一个盒子</li>
+<li>flatMap 拆平，把所有盒子打开放一起</li>
+<li>sorted 排序</li>
+<li>distinct 去重</li>
+<li>collect 收集结果，把Stream结果转换成各种集合。</li>
+<li>reduce聚合（求和，最大最小值，平均值，拼接）</li>
+<li>partitioningBy分区</li>
+<li>joining（字符串连接）</li>
+</ul>
+<p><strong>//map flatMap</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;&gt;</span> classes <span style="color:#f92672">=</span> Arrays.<span style="color:#a6e22e">asList</span>(
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Arrays.<span style="color:#a6e22e">asList</span>(<span style="color:#e6db74">&#34;张三&#34;</span>,<span style="color:#e6db74">&#34;李四&#34;</span>),
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Arrays.<span style="color:#a6e22e">asList</span>(<span style="color:#e6db74">&#34;王五&#34;</span>,<span style="color:#e6db74">&#34;赵六&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//想得到”张三“”李四“”王五“”赵六“</span>
+</span></span><span style="display:flex;"><span>classes.<span style="color:#a6e22e">stream</span>()
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">map</span>(list <span style="color:#f92672">-&gt;</span> list)
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">toList</span>();<span style="color:#75715e">//[</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">[</span>张三,李四<span style="color:#f92672">]</span>,
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>王五,赵六<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">]</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>classes.<span style="color:#a6e22e">stream</span>()
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">flatMap</span>(list <span style="color:#f92672">-&gt;</span> list.<span style="color:#a6e22e">stream</span>())
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">toList</span>();<span style="color:#75715e">//[张三,李四,王五,赵六]</span>
+</span></span></code></pre></div><p><strong>//sorted</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//升序</span>
+</span></span><span style="display:flex;"><span>nums.<span style="color:#a6e22e">stream</span>()
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">sorted</span>()
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">toList</span>();
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//对象排序 按照年龄</span>
+</span></span><span style="display:flex;"><span>users.<span style="color:#a6e22e">stream</span>()
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">sorted</span>(
+</span></span><span style="display:flex;"><span>(u1,u2)<span style="color:#f92672">-&gt;</span>u1.<span style="color:#a6e22e">getAge</span>()<span style="color:#f92672">-</span>u2.<span style="color:#a6e22e">getAge</span>()
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">toList</span>();
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>users.<span style="color:#a6e22e">stream</span>()
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">sorted</span>(
+</span></span><span style="display:flex;"><span>Comparator.<span style="color:#a6e22e">comparing</span>(User::getAge)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">toList</span>();
+</span></span></code></pre></div><p><strong>//collect</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//转list</span>
+</span></span><span style="display:flex;"><span>toList() 相当于collect(Collectors.<span style="color:#a6e22e">toList</span>())
+</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>users.<span style="color:#a6e22e">stream</span>()
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">map</span>(User::getName)
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">collect</span>(Collectors.<span style="color:#a6e22e">toList</span>());
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//转set(去重)</span>
+</span></span><span style="display:flex;"><span>Set<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> set <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>users.<span style="color:#a6e22e">stream</span>()
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">map</span>(User::getName)
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">collect</span>(Collectors.<span style="color:#a6e22e">toSet</span>());
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//分组</span>
+</span></span><span style="display:flex;"><span>Map<span style="color:#f92672">&lt;</span>Integer,List<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;&gt;</span> map <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>users.<span style="color:#a6e22e">stream</span>()
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">collect</span>(
+</span></span><span style="display:flex;"><span>Collectors.<span style="color:#a6e22e">groupingBy</span>(
+</span></span><span style="display:flex;"><span>User::getAge
+</span></span><span style="display:flex;"><span>));
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//查询成年用户，获取姓名，去重，按照名字排序</span>
+</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> result <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>users.<span style="color:#a6e22e">stream</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//过滤成年人</span>
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">filter</span>(user <span style="color:#f92672">-&gt;</span> user.<span style="color:#a6e22e">getAge</span>() <span style="color:#f92672">&gt;=</span>18)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//获取名字</span>
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">map</span>(User::getName)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//去重</span>
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">distinct</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//排序</span>
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">sorted</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//收集</span>
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">collect</span>(Collectors.<span style="color:#a6e22e">toList</span>());
+</span></span></code></pre></div><h2 id="-总结">📌 总结<a hidden class="anchor" aria-hidden="true" href="#-总结">#</a></h2>
+<p>Lambda 是匿名内部类针对函数式接口的简化写法，配合四个内置函数式接口（Consumer、Function、Predicate、Supplier）和 Stream 流水线（filter、map、flatMap、sorted、distinct、collect 等），可以大幅简化集合操作代码。核心思路是把数据流看作一条流水线，每一步操作都是一道工序，最终用 collect 收集结果。</p>
+<table>
+	<thead>
+			<tr>
+					<th>类别</th>
+					<th>要点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Lambda 语法</td>
+					<td><code>() -&gt; ...</code>、<code>x -&gt; ...</code>、<code>(a, b) -&gt; a + b</code>；多行用 <code>{}</code> + <code>return</code></td>
+			</tr>
+			<tr>
+					<td>函数式接口</td>
+					<td>只有一个抽象方法的接口；自带 Consumer、Function、Predicate、Supplier</td>
+			</tr>
+			<tr>
+					<td>Stream 常用操作</td>
+					<td>filter 过滤、map/flatMap 转换、sorted 排序、distinct 去重、collect 收集</td>
+			</tr>
+			<tr>
+					<td>简化写法</td>
+					<td>方法引用 <code>System.out::println</code>、<code>Comparator.comparing(User::getAge)</code></td>
+			</tr>
+	</tbody>
+</table>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://yifangffff.github.io/tags/java/">Java</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://yifangffff.github.io/posts/llm-wiki/">
+    <span class="title">« Prev</span>
+    <span>LLM Wiki 本地搭建与使用调研</span>
+  </a>
+  <a class="next" href="https://yifangffff.github.io/posts/git/">
+    <span class="title">Next »</span>
+    <span>Git 常用命令速查</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Java 匿名内部类、Lambda 与 Stream 学习笔记 on x"
+            href="https://x.com/intent/tweet/?text=Java%20%e5%8c%bf%e5%90%8d%e5%86%85%e9%83%a8%e7%b1%bb%e3%80%81Lambda%20%e4%b8%8e%20Stream%20%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fyifangffff.github.io%2fposts%2fjava-lambda-stream%2f&amp;hashtags=Java">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Java 匿名内部类、Lambda 与 Stream 学习笔记 on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fyifangffff.github.io%2fposts%2fjava-lambda-stream%2f&amp;title=Java%20%e5%8c%bf%e5%90%8d%e5%86%85%e9%83%a8%e7%b1%bb%e3%80%81Lambda%20%e4%b8%8e%20Stream%20%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;summary=Java%20%e5%8c%bf%e5%90%8d%e5%86%85%e9%83%a8%e7%b1%bb%e3%80%81Lambda%20%e4%b8%8e%20Stream%20%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;source=https%3a%2f%2fyifangffff.github.io%2fposts%2fjava-lambda-stream%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Java 匿名内部类、Lambda 与 Stream 学习笔记 on reddit"
+            href="https://reddit.com/submit?url=https%3a%2f%2fyifangffff.github.io%2fposts%2fjava-lambda-stream%2f&title=Java%20%e5%8c%bf%e5%90%8d%e5%86%85%e9%83%a8%e7%b1%bb%e3%80%81Lambda%20%e4%b8%8e%20Stream%20%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Java 匿名内部类、Lambda 与 Stream 学习笔记 on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fyifangffff.github.io%2fposts%2fjava-lambda-stream%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Java 匿名内部类、Lambda 与 Stream 学习笔记 on whatsapp"
+            href="https://api.whatsapp.com/send?text=Java%20%e5%8c%bf%e5%90%8d%e5%86%85%e9%83%a8%e7%b1%bb%e3%80%81Lambda%20%e4%b8%8e%20Stream%20%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0%20-%20https%3a%2f%2fyifangffff.github.io%2fposts%2fjava-lambda-stream%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Java 匿名内部类、Lambda 与 Stream 学习笔记 on telegram"
+            href="https://telegram.me/share/url?text=Java%20%e5%8c%bf%e5%90%8d%e5%86%85%e9%83%a8%e7%b1%bb%e3%80%81Lambda%20%e4%b8%8e%20Stream%20%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fyifangffff.github.io%2fposts%2fjava-lambda-stream%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Java 匿名内部类、Lambda 与 Stream 学习笔记 on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=Java%20%e5%8c%bf%e5%90%8d%e5%86%85%e9%83%a8%e7%b1%bb%e3%80%81Lambda%20%e4%b8%8e%20Stream%20%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&u=https%3a%2f%2fyifangffff.github.io%2fposts%2fjava-lambda-stream%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://yifangffff.github.io/">yifangffff&#39;s Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+<script>
+ 
+(function () {
+    var toast = null;
+    function showToast(msg) {
+        if (!toast) {
+            toast = document.createElement("div");
+            toast.style.cssText = "position:fixed;left:50%;bottom:32px;transform:translateX(-50%);" +
+                "background:var(--code-bg,#222);color:var(--content,#eee);padding:8px 16px;" +
+                "border-radius:8px;font-size:13px;z-index:9999;box-shadow:0 2px 12px rgba(0,0,0,.3);" +
+                "transition:opacity .3s;pointer-events:none;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis";
+            document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.style.opacity = "1";
+        clearTimeout(toast._t);
+        toast._t = setTimeout(function () { toast.style.opacity = "0"; }, 2500);
+    }
+    document.addEventListener("click", function (e) {
+        var a = e.target.closest ? e.target.closest('a[data-copy], a[href^="mailto:"]') : null;
+        if (!a) return;
+        var copy = a.getAttribute("data-copy");
+        if (!copy) {
+            copy = (a.getAttribute("href") || "").slice("mailto:".length).split("?")[0];
+        }
+        if (!copy) return;
+        e.preventDefault();
+        var title = a.getAttribute("title") || "";
+        var label = title.indexOf("点击复制") === 0 ? title.slice(4) : "邮箱";
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(copy).then(function () {
+                showToast("已复制" + label + "：" + copy);
+            }, function () {
+                showToast(label + "：" + copy);
+            });
+        } else {
+            showToast(label + "：" + copy);
+        }
+    });
+})();
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
