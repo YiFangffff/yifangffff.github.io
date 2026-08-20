@@ -1,0 +1,43 @@
+{{- if .Site.Params.socialIcons }}
+<script>
+/* 邮箱图标点击 → 复制邮箱地址并提示（不依赖系统邮件客户端） */
+(function () {
+    var toast = null;
+    function showToast(msg) {
+        if (!toast) {
+            toast = document.createElement("div");
+            toast.style.cssText = "position:fixed;left:50%;bottom:32px;transform:translateX(-50%);" +
+                "background:var(--code-bg,#222);color:var(--content,#eee);padding:8px 16px;" +
+                "border-radius:8px;font-size:13px;z-index:9999;box-shadow:0 2px 12px rgba(0,0,0,.3);" +
+                "transition:opacity .3s;pointer-events:none;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis";
+            document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.style.opacity = "1";
+        clearTimeout(toast._t);
+        toast._t = setTimeout(function () { toast.style.opacity = "0"; }, 2500);
+    }
+    document.addEventListener("click", function (e) {
+        var a = e.target.closest ? e.target.closest('a[data-copy], a[href^="mailto:"]') : null;
+        if (!a) return;
+        var copy = a.getAttribute("data-copy");
+        if (!copy) {
+            copy = (a.getAttribute("href") || "").slice("mailto:".length).split("?")[0];
+        }
+        if (!copy) return;
+        e.preventDefault();
+        var title = a.getAttribute("title") || "";
+        var label = title.indexOf("点击复制") === 0 ? title.slice(4) : "邮箱";
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(copy).then(function () {
+                showToast("已复制" + label + "：" + copy);
+            }, function () {
+                showToast(label + "：" + copy);
+            });
+        } else {
+            showToast(label + "：" + copy);
+        }
+    });
+})();
+</script>
+{{- end }}
