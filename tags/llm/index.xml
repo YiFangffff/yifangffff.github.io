@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>LLM on yifangffff&#39;s Blog</title>
+    <link>https://yifangffff.github.io/tags/llm/</link>
+    <description>Recent content in LLM on yifangffff&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 20 Aug 2026 16:10:00 +0800</lastBuildDate>
+    <atom:link href="https://yifangffff.github.io/tags/llm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LLM Wiki 本地搭建与使用调研</title>
+      <link>https://yifangffff.github.io/posts/llm-wiki/</link>
+      <pubDate>Thu, 20 Aug 2026 16:10:00 +0800</pubDate>
+      <guid>https://yifangffff.github.io/posts/llm-wiki/</guid>
+      <description>&lt;h1 id=&#34;llm-wiki本地搭建使用调研&#34;&gt;LLM wiki本地搭建+使用调研&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文是对 LLM Wiki 的完整调研记录，涵盖产品介绍、两种本地部署方案与核心能力验证，适合希望自建个人或团队知识库的开发者参考。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

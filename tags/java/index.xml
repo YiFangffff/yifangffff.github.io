@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Java on yifangffff&#39;s Blog</title>
+    <link>https://yifangffff.github.io/tags/java/</link>
+    <description>Recent content in Java on yifangffff&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 20 Aug 2026 11:10:00 +0800</lastBuildDate>
+    <atom:link href="https://yifangffff.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java 匿名内部类、Lambda 与 Stream 学习笔记</title>
+      <link>https://yifangffff.github.io/posts/java-lambda-stream/</link>
+      <pubDate>Thu, 20 Aug 2026 11:10:00 +0800</pubDate>
+      <guid>https://yifangffff.github.io/posts/java-lambda-stream/</guid>
+      <description>&lt;h1 id=&#34;java-匿名内部类lambda-与-stream-学习笔记&#34;&gt;Java 匿名内部类、Lambda 与 Stream 学习笔记&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这篇笔记整理了 Java 中匿名内部类、Lambda 表达式、函数式接口与 Stream 流的核心概念和常用写法，包含语法示例与综合案例，适合 Java 初学者以及需要快速回顾的开发者。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
